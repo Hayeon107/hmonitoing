@@ -1,0 +1,516 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f4f6f9;
+    color: #202938;
+    font-family: "Malgun Gothic", sans-serif;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 4%;
+    background: #173b67;
+    color: white;
+}
+
+.topbar h1 {
+    margin: 0 0 7px;
+    font-size: 25px;
+}
+
+.topbar p {
+    margin: 0;
+    color: #dce7f5;
+    font-size: 14px;
+}
+
+.container {
+    width: 94%;
+    max-width: 1100px;
+    margin: 26px auto;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    padding: 17px 20px;
+    border: 1px solid #e2e7ef;
+    border-radius: 12px;
+    background: white;
+}
+
+.summary-card span {
+    display: block;
+    color: #667085;
+    font-size: 14px;
+}
+
+.summary-card strong {
+    display: block;
+    margin-top: 7px;
+    font-size: 28px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+input,
+select,
+textarea {
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    background: white;
+    color: #202938;
+    font: inherit;
+}
+
+#searchInput {
+    flex: 1;
+}
+
+.button {
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.primary {
+    background: #173b67;
+    color: white;
+}
+
+.secondary {
+    background: #e8edf4;
+    color: #25364b;
+}
+
+.message {
+    color: #667085;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+/* 충전소 타일 목록 */
+.station-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.station-card {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    column-gap: 14px;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    padding: 16px 18px;
+    border: 1px solid #e0e6ef;
+    border-radius: 10px;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+
+.station-card:hover {
+    border-color: #8ba9cf;
+    background: #f9fbff;
+}
+
+.station-no {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #e0e6ef;
+    color: #667085;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.station-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+}
+
+.station-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.station-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.station-operator {
+    flex: 0 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #667085;
+    font-size: 13px;
+}
+
+.station-address {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* 상세정보 창 */
+dialog {
+    width: min(680px, 94vw);
+    max-height: 88vh;
+    overflow: auto;
+    padding: 24px;
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 16px 50px rgb(0 0 0 / 18%);
+}
+
+dialog::backdrop {
+    background: rgb(0 0 0 / 42%);
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #eaecf0;
+}
+
+.dialog-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+
+/* 상세정보 / 이력관리 탭 */
+.detail-tabs {
+    display: flex;
+    gap: 6px;
+    margin: 8px 0 22px;
+    border-bottom: 1px solid #dce4ef;
+}
+
+.detail-tab {
+    padding: 12px 20px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: #667085;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.detail-tab:hover {
+    color: #315b91;
+}
+
+.detail-tab.active {
+    border-bottom-color: #315b91;
+    color: #315b91;
+}
+
+.detail-tab-panel[hidden] {
+    display: none !important;
+}
+
+.detail-tab:focus-visible {
+    outline: 2px solid #315b91;
+    outline-offset: -2px;
+}
+
+
+.detail-address {
+    margin: 8px 0 0;
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#detailContent {
+    padding-top: 10px;
+}
+
+.detail-row {
+    display: grid;
+    grid-template-columns: 145px minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.detail-label {
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.detail-value {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.detail-row input,
+.detail-row textarea {
+    width: 100%;
+}
+
+.detail-row textarea {
+    min-height: 90px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.readonly-field {
+    background: #edf0f4;
+    color: #667085;
+    cursor: not-allowed;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    padding-top: 18px;
+}
+
+
+/* 이력 타임라인 */
+.history-section {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 2px solid #e0e6ef;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.history-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.history-count {
+    margin: 6px 0 0;
+    color: #667085;
+    font-size: 13px;
+}
+
+.history-input-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#historyFormArea {
+    margin-bottom: 22px;
+    padding: 16px;
+    border: 1px solid #dce4ef;
+    border-radius: 10px;
+    background: #f8faff;
+}
+
+#newHistoryContent {
+    width: 100%;
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.history-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.history-timeline {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-entry {
+    position: relative;
+    margin-left: 8px;
+    padding: 0 0 22px 22px;
+    border-left: 2px solid #dce4ef;
+}
+
+.history-entry::before {
+    position: absolute;
+    top: 3px;
+    left: -6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #5279a7;
+    content: "";
+}
+
+.history-entry:last-child {
+    padding-bottom: 0;
+    border-left-color: transparent;
+}
+
+.history-date {
+    display: block;
+    margin-bottom: 8px;
+    color: #526782;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.history-content {
+    margin: 0;
+    color: #202938;
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.history-empty {
+    padding: 20px;
+    border-radius: 8px;
+    background: #f4f6f9;
+    color: #667085;
+    text-align: center;
+    font-size: 14px;
+}
+
+
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+
+
+    .topbar {
+        padding: 17px 4%;
+    }
+
+    .topbar h1 {
+        font-size: 20px;
+    }
+
+    .topbar p {
+        font-size: 12px;
+    }
+
+    .container {
+        margin-top: 18px;
+    }
+
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .station-card {
+        grid-template-columns: 42px minmax(0, 1fr);
+        column-gap: 10px;
+        padding: 13px 12px;
+    }
+
+    .station-name {
+        font-size: 13px;
+    }
+
+    .station-operator {
+        font-size: 12px;
+    }
+
+    .station-name {
+        font-size: 14px;
+    }
+
+    .station-operator {
+        font-size: 12px;
+    }
+
+    dialog {
+        padding: 18px;
+    }
+
+    .detail-row {
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .history-header h3 {
+        font-size: 16px;
+    }
+
+    #historyFormArea {
+        padding: 12px;
+    }
+
+    .history-content {
+        font-size: 13px;
+    }
+
+    .detail-tab {
+        flex: 1;
+        padding: 11px 12px;
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,9 @@
+파일	역할
+main.py	FastAPI 앱 실행, 라우터 등록
+database.py	PostgreSQL 연결 및 DB 세션 관리
+models.py	DB 테이블 정의
+schemas.py	API 요청·응답 데이터 검증
+routers/	충전소 조회·수정, 로그인 API
+services/	업무 로직, 권한 검사 등
+migrations/	DB 구조 변경 이력
+.env	DB 비밀번호 등 비밀 설정

@@ -1,0 +1,6 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+.filelist.txt
+.monitoring_current_situation.xlsx

@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수소충전소 운영정보</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>수소충전소 운영정보</h1>
+      <p>충전소 모니터링 및 통신 현황 관리</p>
+    </div>
+    <button id="refreshButton" class="button secondary">새로고침</button>
+  </header>
+
+  <main class="container">
+    <section class="summary">
+      <div class="summary-card">
+        <span>전체 충전소</span>
+        <strong id="totalCount">-</strong>
+      </div>
+      <div class="summary-card">
+        <span>검색 결과</span>
+        <strong id="resultCount">-</strong>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <input id="searchInput" type="search"
+        placeholder="충전소명, 운영기관, 주소, IP 검색">
+      <select id="statusFilter">
+        <option value="">전체 상태</option>
+        <option value="error">통신장애</option>
+        <option value="normal">통신장애 아님</option>
+        <option value="unknown">미확인</option>
+      </select>
+    </section>
+
+    <p id="message" class="message" role="status">
+      데이터를 불러오는 중입니다.
+    </p>
+
+    <section id="stationList" class="station-list"></section>
+  </main>
+
+  <dialog id="detailDialog">
+    <div class="dialog-header">
+      <div>
+        <h2 id="detailTitle">충전소 상세정보</h2>
+        <p id="detailAddress" class="detail-address"></p>
+      </div>
+      <button id="closeDialog" type="button"
+        class="button secondary">닫기</button>
+    </div>
+
+    <form id="editForm">
+      <div id="detailContent"></div>
+      <p id="saveMessage" class="message" role="status"></p>
+
+      <div class="dialog-actions">
+        <button type="button" id="editButton"
+          class="button primary">수정</button>
+        <button type="submit" id="saveButton"
+          class="button primary" hidden>저장</button>
+        <button type="button" id="cancelButton"
+          class="button secondary" hidden>취소</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
