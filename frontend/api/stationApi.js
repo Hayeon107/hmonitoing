@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/api/stations";
+const API_URL = "http://127.0.0.1:8001/api/stations";
 
 export async function getStations() {
   const response = await fetch(API_URL);

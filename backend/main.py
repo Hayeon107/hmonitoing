@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy import text
 
-from database import engine, test_connection
+from .database import engine, test_connection
 
 app = FastAPI(title="수소충전소 운영정보")
 
@@ -112,10 +112,7 @@ def get_stations():
                         blue,
                         ip,
                         port,
-                        matrix_installed,
-                        latest_history,
-                        past_history,
-                        updated_at
+                        matrix_installed
                     FROM hydrogen_stations
                     ORDER BY station_no
                 """)
@@ -124,7 +121,8 @@ def get_stations():
                 dict(row)
                 for row in result.mappings().all()
             ]
-    except Exception:
+    except Exception as e:
+        print(f"충전소 목록 조회 오류: {e}")
         raise HTTPException(
             status_code=500,
             detail="충전소 목록 조회에 실패했습니다.",
