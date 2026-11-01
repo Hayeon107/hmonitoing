@@ -5,9 +5,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy import text
+from uvicorn import logging
+
+
 
 from .database import engine, test_connection
+import logging
 
+logger = logging.getLogger(__name__)
 app = FastAPI(title="수소충전소 운영정보")
 
 # 개발용 설정: Live Server에서 접속할 수 있도록 허용
@@ -38,8 +43,8 @@ class StationUpdate(BaseModel):
     ip: str | None = None
     port: int | None = None
     matrix_installed: str | None = None
-    latest_history: str | None = None
-    past_history: str | None = None
+    # latest_history: str | None = None
+    # past_history: str | None = None
 
 
 class StationHistoryCreate(BaseModel):
@@ -63,8 +68,8 @@ EDITABLE_FIELDS = {
     "ip",
     "port",
     "matrix_installed",
-    "latest_history",
-    "past_history",
+    # "latest_history",
+    # "past_history",
 }
 
 @app.get("/")
@@ -184,16 +189,26 @@ def update_station(
             ).mappings().one()
 
             return dict(row)
-
     except HTTPException:
         raise
     except Exception:
+        logger.exception(
+            "충전소 정보 저장 실패: station_no=%s",
+            station_no,
+        )
         raise HTTPException(
             status_code=500,
             detail="충전소 정보 저장에 실패했습니다.",
         )
+        
+        
+        
 @app.get("/api/stations/{station_no}/history")
 def get_station_history(station_no: int):
+    print(
+        f"===== HISTORY API CALLED: station_no={station_no} =====",
+        flush=True,
+    )
     try:
         with engine.connect() as connection:
             # 충전소 존재 여부 확인
@@ -223,15 +238,18 @@ def get_station_history(station_no: int):
             )
 
             return [dict(row) for row in result.mappings().all()]
-
     except HTTPException:
         raise
-    except Exception:
+    except Exception as e:
+        import traceback
+
+        print("===== HISTORY API EXCEPTION =====", repr(e), flush=True)
+        traceback.print_exc()
+
         raise HTTPException(
             status_code=500,
             detail="충전소 이력 조회에 실패했습니다.",
-        )
-
+        ) from e
 
 @app.put("/api/stations/{station_no}/history/{history_id}")
 def update_station_history(
@@ -303,10 +321,13 @@ def update_station_history(
 
 
 @app.post("/api/stations/{station_no}/history", status_code=201)
+
 def create_station_history(
     station_no: int,
     payload: StationHistoryCreate,
 ):
+    
+    print("===== HISTORY API CALLED =====", flush=True)
     content = payload.content.strip()
 
     if not content:
@@ -316,6 +337,7 @@ def create_station_history(
         )
 
     try:
+        print("===== HISTORY API CALLED =====", flush=True)
         with engine.begin() as connection:
             station = connection.execute(
                 text("""
@@ -356,12 +378,13 @@ def create_station_history(
 
             return dict(result.mappings().one())
 
-    except HTTPException:
-        raise
+        
+    
     except Exception as e:
+        print("===== EXCEPTION OCCURRED =====", repr(e), flush=True)
         import traceback
         traceback.print_exc()
         raise HTTPException(
             status_code=500,
-            detail=f"충전소 이력 수정에 실패했습니다: {str(e)}",
+            detail="충전소 이력 조회에 실패했습니다."
         )

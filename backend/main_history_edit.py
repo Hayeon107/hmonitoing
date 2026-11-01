@@ -113,8 +113,6 @@ def get_stations():
                         ip,
                         port,
                         matrix_installed,
-                        latest_history,
-                        past_history,
                         updated_at
                     FROM hydrogen_stations
                     ORDER BY station_no
